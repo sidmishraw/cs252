@@ -1,0 +1,11 @@
+.DS_Store
+*.fls
+*.aux
+*.bbl
+*.blg
+*.out
+*.fdb_latexmk
+*.fls
+*.bcf
+*.o
+*.hi

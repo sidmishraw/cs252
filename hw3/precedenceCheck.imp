@@ -1,0 +1,25 @@
+a := (16 - 3) * (4 / (1 + 3));
+b := if (a > 10) and (a < 16) then 2 else 0 endif;
+c := if ((a > 10) and (a < 16)) then 2 else 0 endif;
+d := (a > 10) and (b > 0);
+e := (not true);
+gi := (not (a > 10) and (not (b > 0)));
+gii := (                not (a > 10)     
+           ) and (not (b > 0));
+giii := (not ((a > 10) and (not (b > 0))));
+ti := false 
+and false;
+tii := false and true;
+tiii := true and false;
+tiv := true and true;
+Ti := false or false;
+Tii := false or true;
+Tiii := true or false;
+Tiv := true or true;
+P1 := (not false);
+P2 := 3 * 2 / 5 + 3 * 7;
+P3 := 3 - 1 + 4;
+P4 := 32 + 3 * 6;
+P5 := 3 - 1 * 4;
+P6 := 2 / 2 + 8;
+P7 := 9 - 9 - 10 + 45

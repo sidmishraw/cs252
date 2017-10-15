@@ -1,0 +1,72 @@
+%
+% lab4.tex
+% @author Sidharth Mishra
+% @description lab4 for CS 252
+% @created Wed Sep 20 2017 13:23:12 GMT-0700 (PDT)
+% @last-modified Wed Sep 20 2017 13:23:12 GMT-0700 (PDT)
+%
+
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{fullpage}
+\usepackage{bibentry}
+
+
+\title{Lab \#4: An essay in LaTeX}
+
+\author{
+  CS 252: Advanced Programming Languages \\
+  Sidharth Mishra \textless{sidmishraw@gmail.com}\textgreater \\
+  San Jos\'{e} State University \\
+}
+
+\date{9/20/2017}
+
+% start the document
+\begin{document}
+
+% make the title
+\maketitle
+
+% section
+\section{Personal History}
+\label{sec:one}
+I don't have anything interesting to talk about here.
+Had I been someone like \textbf{\emph{Darth Vader}} or \textbf{\emph{Kenshin Himura}} it would have been an interesting read. But, I'm not so deal with it :) \\
+
+\noindent{\emph{P.S This essay is just a template to try out the various LaTeX functionalities.}}
+
+% academic/career goals
+\section{Academic/Career Goals}
+\label{sec:two}
+My academic goals are as follows:(\emph{Testing out unordered list in LaTeX})
+
+\begin{itemize}
+  \item \emph{short term goal \#1}: Complete the essay by \textbf{\date{9/20/2017 5:00 PM}}
+  \item Get my M.S Computer Science by the end of \textbf{Spring 2018}
+\end{itemize}
+\noindent
+% using the \\ to insert a new line
+\newline
+My career goals are as follows:(\emph{Now I'm testing out the ordered/numbered list in LaTeX})
+\begin{enumerate}
+  \item Become a C.S graduate
+  \item Become a Software Engineer
+  \item Become a Senior Software Engineer
+  \item Become a Software Architect
+  \item Become a Senior Software Architect
+  \item Retire to the countryside after making lots of money, open up a gaming arcade and let people play games for free for the first 3 months.
+\end{enumerate}
+\noindent
+%section3 Research Topics of Interest
+\section{Research Topics of Interest}
+Referencing Section~\ref{sec:one} and Section~\ref{sec:two}
+\noindent
+%cited using
+\newline{}
+\newline{}
+I'm currently interested in \textbf{\emph{Software Transactional Memory}}\cite{Castor:2011:STM:2095050.2095071}\cite{Gottschlich:2010:EST:1772954.1772970} and its potential in becoming the next go to thing for achieving concurrency easily and safely.
+\bibliography{lab4}{}
+\bibliographystyle{plain}
+\end{document}

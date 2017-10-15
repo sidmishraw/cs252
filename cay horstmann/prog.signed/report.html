@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="Submission" content="/tmp/codecheck/17091305318836787362886494600/submission"/>
+<meta name="Problem" content="p1"/>
+<meta name="Level" content="1"/>
+<meta name="Time" content="2017-09-13T05:31:15Z"/>
+<meta name="ID" content="prog"/>
+<meta name="Elapsed" content="27285 ms"/>
+<style type="text/css">
+.header {font-weight: bold; font-size: 1.2em; }
+.item {font-weight: bold;}
+.pass {color: green;}
+.fail {color: red;}
+table.file td {padding-right: 1em; background: #FFF; }
+.linenumber {color: gray;}
+.footnote {font-size: 0.7em;}
+table {font-size: 0.9em;}
+td, th { background: #EEE; margin: 0.5em; padding: 0.25em;}
+table.output td {vertical-align: top;}
+div.footnotes { border-top: 1px solid gray; padding-top: 0.5em; }
+</style>
+<title>Report</title>
+</head>
+<body>
+<p class="header run">Testing prog.scala</p>
+<div class="run">
+<pre class="output">GNonEmpty(3,GNonEmpty(2,GNonEmpty(1,GEmpty)))
+GNonEmpty(D,GNonEmpty(C,GNonEmpty(B,GNonEmpty(A,GEmpty))))
+</pre>
+<span class="pass">pass </span></div>
+<p class="header studentFiles">Student files</p>
+<div class="studentFiles">
+<p class="caption">prog.scala:</p>
+<pre>/*
+  Your task is to complete the reverse method.
+*/
+abstract class GList[+T] {
+  def head: T
+  def tail: GList[T]
+  def isEmpty: Boolean
+  def cons[U &gt;: T](h: U): GList[U] = new GNonEmpty(h, this)
+  def ::[U &gt;: T](h: U): GList[U] = new GNonEmpty(h, this)
+  def append[U &gt;: T](lst: GList[U]): GList[U]
+  def reverse: GList[T]
+}
+
+case object GEmpty extends GList[Nothing] {
+  override def head = ???
+  override def tail = ???
+  override def isEmpty = true
+  override def append[U](lst: GList[U]) = lst
+  override def reverse = GEmpty
+}
+
+case class GNonEmpty[T](head: T, tail: GList[T]) extends GList[T] {
+  override def isEmpty = false  
+  override def append[U &gt;: T](lst: GList[U]) = GNonEmpty(head, tail.append(lst))
+  override def reverse = tail.reverse.append(GNonEmpty(head, GEmpty))
+}
+
+// Don't change anything here.
+object prog extends App {
+  val l1 = 1 :: 2 :: 3 :: GEmpty
+  val l2 = "A" :: "B" :: "C" :: "D" :: GEmpty
+  println(l1.reverse)
+  println(l2.reverse)
+}
+</pre>
+</div>
+<p class="header score">Score</p>
+<div class="score">
+<p class="score">1/1</p>
+</div>
+<div class="footnotes"><div class="footnote">2017-09-13T05:31:15Z</div>
+</div>
+</body></html>

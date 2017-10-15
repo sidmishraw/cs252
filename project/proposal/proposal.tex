@@ -1,0 +1,90 @@
+%
+% proposal.tex
+%
+% @author Sidharth Mishra
+% @description CS 252 Project Proposal
+% This latex document is the project proposal for the CS 252 class project
+% @created Thu Oct 05 2017 12:14:02 GMT-0700 (PDT)
+% @last-modified Thu Oct 05 2017 12:14:02 GMT-0700 (PDT)
+%
+
+\documentclass{article}
+\usepackage[us, 12hr]{datetime}  % us format for date and time, time is in 12hr format
+% \usepackage{fancyhdr} % for headers and footers
+\usepackage{array}
+\usepackage{bibentry}
+\usepackage{hyperref}
+
+% for text wrapping
+\newcolumntype{L}{>{\flushleft\arraybackslash}m{7cm}}
+
+% to use roman numerals for sections and subsections
+\renewcommand{\thesection}{\Roman{section}} 
+\renewcommand{\thesubsection}{\thesection.\Roman{subsection}}
+
+\setlength{\headheight}{36pt}
+% \pagestyle{fancyplain}
+
+\title{Optimistic Software Transactional Memory Prototype}
+
+\author {
+  Name: Sidharth Mishra \\
+  Class: CS 252 \\
+  Assignment: Project Proposal \\
+  Due Date: 10/6/2017 - 11:59 PM \\
+}
+\date{Last Modified: {\today}:{\currenttime}}
+\begin{document}
+    \maketitle
+
+    \centering{\section{Motivation}}
+    \begin{flushleft}
+    {
+      % block for introduction
+      Concurrency primitives built into languages such as \emph{{\tt Java}} are powerful but have complex syntax and require careful use. For example, Java provides the {\tt synchronized} blocks and methods for granular locks, but these require careful handling because they might lead to degraded performance due to excessive locking or data-race conditions if not applied at correct spots. Moreover, modern languages such as \emph{{\tt Go}} supply simpler concurrency directives such as {\tt goroutines} and {\tt channels} but, these too, at times, require locking and can be difficult to reason about. One possible solution is to use \emph{Software Transactional Memory(STM)} to handle concurrency. The STM relieves the developer from thinking about or writing parallel code by letting them write serial code and the STM manager handling the system-specific details to run their code in parallel.
+    }  
+    \end{flushleft}
+
+    \centering{\section{Objective}}
+    \begin{flushleft}
+      {
+        % block for objective goes here
+        The objective of this project is to build a working prototype of a optimistic STM using the working principles mentioned in \cite{Shavit1997} and \cite{MichaelW1}. The transactions in the STM will be using timestamp(versioning) protocol and there will be no locks used.
+        \newline
+        \newline
+        Language(s) of choice:
+        \begin{itemize}
+          \item Java 1.8.0\_144
+          \item Go 1.9
+        \end{itemize}
+      }
+    \end{flushleft}
+    \centering{\section{Progression Timeline}}
+    {
+      % block for progression timeline table
+      \newcommand{\schedule}[2]{
+        \hline
+        #1 & #2
+        \\
+        \hline
+      }
+
+      % table\
+      \begin{center}
+        \begin{table}[!th]
+          \begin{tabular}{|L|L|}
+            \schedule{Week 1: October 10 - October 16}{Read through \cite{Shavit1997} and implement the Java version}
+            \schedule{Week 2: October 23 - October 29}{Look up Go, implement working prototype in Go}
+            \schedule{Week 3: November 1 - November 7}{Refine implementation of Java version, implement small examples}
+            \schedule{Week 4: November 9 - November 15}{Refine implementation of Go version, implement small examples}
+            \schedule{Week 5: November 18 - November 24}{Work on deliverables(code and presentation files)}
+          \end{tabular}
+        \end{table}  
+      \end{center}
+    }
+
+    \nocite{SJonesBeautifulConcc}
+    % references and citations
+    \bibliography{prop-refs}{}
+    \bibliographystyle{IEEEtran}
+\end{document}

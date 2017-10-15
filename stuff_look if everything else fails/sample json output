@@ -1,0 +1,44 @@
+{
+    "name": {
+        "first" : "Tyrion"
+        "last" : "Lannister"
+    },
+    "age" : 32,
+    "siblings" : [
+        "Jamie",
+        "Cersei"
+    ],
+    "pet" : ""
+}
+
+
+
+
+
+# 1
+{
+    "name" : {
+        "first" : "Tyrion"
+        "last" : "Lannister"
+
+    }
+    "age" : 32.0
+    "siblings" : [
+        "Jamie",
+        "Cersei"
+    ]
+    "pet" : null
+}
+
+#2
+{
+    "name" : {
+        "first" : "Tyrion"
+        ,"last" : "Lannister"
+
+    }
+    ,"age" : 32.0
+    ,"siblings" : ["Jamie",
+    "Cersei"]
+    ,"pet" : null
+}

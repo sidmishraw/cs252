@@ -1,0 +1,409 @@
+%
+% while-ssop.tex
+% @author Sidharth Mishra
+% @description WHILE language operational semantics using Small Step Operational Semantics
+% @created Sun Sep 24 2017 11:25:55 GMT-0700 (PDT)
+% @last-modified Sun Sep 24 2017 11:25:55 GMT-0700 (PDT)
+%
+
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{float}
+\usepackage{paralist}
+
+\title{Homework 2: Operational Semantics for WHILE}
+
+\author{
+  Name: Sidharth Mishra \\
+  Class: CS 252 \\
+  Assigment: HW2 \\
+  Due Date: 9/28/2017 11:59 PM \\
+  }
+\date{Sun Sep 24 2017 11:25:55 GMT-0700 (PDT)}
+
+\begin{document}
+\maketitle
+
+\section{Operational Semantics of WHILE using evaluation order rules}
+
+% Commands for formatting figure
+\newcommand{\mydefhead}[2]{\multicolumn{2}{l}{{#1}}&\mbox{\emph{#2}}\\}
+\newcommand{\mydefcase}[2]{\qquad\qquad& #1 &\mbox{#2}\\}
+
+% Commands for language format
+\newcommand{\assign}[2]{#1~{:=}~#2}
+\newcommand{\ife}[3]{\mbox{\tt if}~{#1}~\mbox{\tt then}~{#2}~\mbox{\tt else}~{#3}}
+\newcommand{\whilee}[2]{\mbox{\tt while}~(#1)~#2}
+\newcommand{\true}{\mbox{\tt true}}
+\newcommand{\false}{\mbox{\tt false}}
+\newcommand{\enot}[1]{\mbox{\tt not}~{#1}}
+\newcommand{\eand}[2]{{#1}~\mbox{\tt and}~{#2}}
+\newcommand{\eor}[2]{{#1}~\mbox{\tt or}~{#2}}
+
+The language specification for WHILE language and Small Step operational semantics for the language are described below.
+\\
+\\
+% beginning the language specification
+\subsection{WHILE language specification}
+
+% llr means that the array like table has 3 columns and first 2 are left aligned and the last is right aligned
+\[
+  \begin{array}{llr}
+    \mydefhead{e ::=\qquad\qquad\qquad\qquad}{Expressions}
+    \mydefcase{x}{variables/addresses}
+    \mydefcase{v}{values}
+    \mydefcase{\assign x e}{assignment}
+    \mydefcase{e; e}{sequential expressions}
+    \mydefcase{e ~ \tt op ~ e}{binary operations}
+    \mydefcase{\ife e e e}{conditional expressions}
+    \mydefcase{\whilee e e}{while expressions}
+    \\
+    \mydefcase{\enot e}{negation/not unary operation}
+    \mydefcase{\eand e e}{{\tt and} operation}
+    \mydefcase{\eor e e}{{\tt or} operation}
+
+    \\
+    \\
+    \mydefhead{v ::=\qquad\qquad\qquad\qquad}{Values}
+    \mydefcase{i}{integer values}
+    \mydefcase{b}{boolean values}
+
+    \\
+    \\
+    op ::= & + ~|~ - ~|~ * ~|~ / ~|~ > ~|~ >= ~|~ < ~|~ <= & \mbox{\emph{Binary operators}} \\
+  \end{array}
+\]
+\\
+\\
+% beginning of Small Step operational semantics for the WHILE language
+\subsection{Small Step operational semantics for WHILE language}
+
+Let `$\sigma$` refer to the \textbf{\emph{Store}} which holds the state of the different variables used in the expressions.
+
+% ssrule defines the rules for evaluation of expressions
+% in WHILE language using Small Step operational semantics
+%
+% @param #1: the name of the rule
+% @param #2: the expression to be evaluated
+% @param #3: the text to be displayed on the top of the line, the mid step
+%       evaluation or where condition(?)
+% @param #4: the value of the evaluation
+\newcommand{\ssrule}[4]{
+  \multicolumn{1}{r}{
+    \strut\mbox{\tt [{#1}]\qquad}
+  } &
+  \multicolumn{1}{l}{
+    \dfrac{\strut\begin{array}{@{}c@{}} #3 \end{array}}
+          {\strut\begin{array}{@{}c@{}} #2 ~~ \rightarrow ~~ #4 \end{array}}
+  }
+  \\~\\
+}
+
+% rules page #1
+\[
+  \begin{array}{r@{\qquad}l}
+    
+    \hline
+
+    % 1 - value evaluates to value
+    \ssrule{
+      SS-VALUE
+    }{
+      v,~\sigma
+    }{
+    }{
+      v,~\sigma
+    }
+
+    \hline
+    \\
+
+    % 2 - variable/address access
+    \ssrule{
+      SS-VARIABLE-ACCESS-REDUCTION
+    }{
+      x,~\sigma
+    }{
+      x \in domain(\sigma) \qquad \sigma(x) = v
+    }{
+      v,~\sigma
+    }
+
+    \hline
+
+    % 3 - assignment(s)
+    \ssrule{
+      SS-ASSIGNMENT-REDUCTION
+    }{
+      \assign{x}{v},~\sigma
+    }{
+    }{
+      v,~\sigma[\assign{x}{v}]
+    }
+
+    \ssrule{
+      SS-ASSIGNMENT-CONTEXT
+    }{
+      \assign{x}{e},~\sigma
+    }{
+      e,~\sigma ~~ \rightarrow ~~ e',~\sigma'
+    }{
+      \assign{x}{e'},~\sigma'
+    }
+
+    \hline
+
+    % 4 - sequence(s)
+    \ssrule{
+      SS-SEQUENCE-REDUCTION
+    }{
+      v; e,~\sigma
+    }{
+    }{
+      e,~\sigma
+    }
+
+    \ssrule{
+      SS-SEQUENCE-CONTEXT
+    }{
+      e_1; e_2,~\sigma
+    }{
+      e_1,~\sigma~~\rightarrow~~e_1',~\sigma'
+    }{
+      e_1'; e_2,~\sigma'
+    }
+
+    \hline
+
+    % 5 - operations
+    \ssrule{
+      SS-OPERATION-REDUCTION
+    }{
+      v_1 ~\textbf{op} ~v_2,~\sigma
+    }{
+      v~=~\textbf{apply}~\textbf{op} ~v_1~v_2
+    }{
+      v,~\sigma
+    }
+
+    \ssrule{
+      SS-OPERATION-CONTEXT \#2
+    }{
+      v ~\textbf{op} ~e,~\sigma
+    }{
+      e,~\sigma~~\rightarrow~~e',~\sigma'
+    }{
+      v ~\textbf{op} ~e',~\sigma'
+    }
+
+    \ssrule{
+      SS-OPERATION-CONTEXT \#1
+    }{
+      e_1 ~\textbf{op} ~e_2,~\sigma
+    }{
+      e_1,~\sigma~~\rightarrow~~e_1',~\sigma'
+    }{
+      e_1' ~\textbf{op} ~e_2,~\sigma'
+    }
+
+    \hline
+
+     % 6 - if conditionals
+     \ssrule{
+      SS-IF-TRUE-REDUCTION
+    }{
+      \ife{\true}{e_1}{e_2},~\sigma
+    }{
+    }{
+      e_1,~\sigma
+    }
+
+    \ssrule{
+      SS-IF-FALSE-REDUCTION
+    }{
+      \ife{\false}{e_1}{e_2},~\sigma
+    }{
+    }{
+      e_2,~\sigma
+    }
+
+    \ssrule{
+      SS-IF-CONTEXT
+    }{
+      \ife{e_1}{e_2}{e_3},~\sigma
+    }{
+      e_1,~\sigma~~\rightarrow~~e_1',~\sigma'
+    }{
+      \ife{e_1'}{e_2}{e_3},~\sigma'
+    }
+
+    \hline
+
+    % 7 - while
+    \ssrule{
+      SS-WHILE-CONTEXT
+    }{
+      \whilee{e1}{e2},~\sigma
+    }{
+    }{
+      \ife{e1}{e2;\whilee{e1}{e2}}{\false},~\sigma
+    }
+
+    \hline
+
+\end{array}
+\]
+
+  \pagebreak
+
+  % rules page #2
+\[
+  \begin{array}{r@{\qquad}l}
+   
+    \hline
+
+    % I'm going to represent not in terms of if-else
+    % 8 - not
+    \ssrule{
+      SS-NOT-CONTEXT
+    }{
+      \enot{e},~\sigma
+    }{
+    }{
+      \ife{e}{\false}{\true},~\sigma
+    }
+
+    % \ssrule{
+    %   SS-NOT-FALSE-REDUCTION
+    % }{
+    %   \enot{\false},~\sigma
+    % }{
+    % }{
+    %   \true,~\sigma
+    % }
+
+    % \ssrule{
+    %   SS-NOT-CONTEXT
+    % }{
+    %   \enot{e},~\sigma
+    % }{
+    %   e,~\sigma~~\rightarrow~~e',~\sigma'
+    % }{
+    %   \enot{e'},~\sigma'
+    % }
+
+    \hline
+
+    % I'm going to represent and and or in terms of if-else
+    % 9 - and
+    
+    \ssrule{
+      SS-AND-CONTEXT
+    }{
+      \eand{e1}{e2},~\sigma
+    }{
+    }{
+      \ife{e1}{\ife{e2}{\true}{\false}}{\false},~\sigma
+    }
+
+    % \ssrule{
+    %   SS-AND-TRUE-FALSE-REDUCTION
+    % }{
+    %   \eand{\true}{\false},~\sigma
+    % }{
+    % }{
+    %   \false,~\sigma
+    % }
+
+    % \ssrule{
+    %   SS-AND-FALSE-REDUCTION
+    % }{
+    %   \eand{\false}{e},~\sigma
+    % }{
+    % }{
+    %   \false,~\sigma
+    % }
+
+    % \ssrule{
+    %   SS-AND-TRUE-CONTEXT
+    % }{
+    %   \eand{\true}{e},~\sigma
+    % }{
+    %   e,~\sigma~~\rightarrow~~e',~\sigma'
+    % }{
+    %   \eand{\true}{e'},~\sigma'
+    % }
+
+    % \ssrule{
+    %   SS-AND-CONTEXT
+    % }{
+    %   \eand{e_1}{e_2},~\sigma
+    % }{
+    %   e_1,~\sigma~~\rightarrow~~e_1',~\sigma'
+    % }{
+    %   \eand{e_1'}{e_2},~\sigma'
+    % }
+
+    \hline
+
+    % 10 - or
+    \ssrule{
+      SS-OR-CONTEXT
+    }{
+      \eor{e1}{e2},~\sigma
+    }{
+    }{
+      \ife{e1}{\true}{\ife{e2}{\true}{\false}},~\sigma
+    }
+
+    % \ssrule{
+    %   SS-OR-FALSE-TRUE-REDUCTION
+    % }{
+    %   \eor{\false}{\true},~\sigma
+    % }{
+    % }{
+    %   \true,~\sigma
+    % }
+
+    % \ssrule{
+    %   SS-OR-TRUE-REDUCTION
+    % }{
+    %   \eor{\true}{e},~\sigma
+    % }{
+    % }{
+    %   \true,~\sigma
+    % }
+
+    % \ssrule{
+    %   SS-OR-VAL-CONTEXT
+    % }{
+    %   \eor{v}{e},~\sigma
+    % }{
+    %   e,~\sigma~~\rightarrow~~e',~\sigma'
+    % }{
+    %   \eor{v}{e'},~\sigma'
+    % }
+
+    % \ssrule{
+    %   SS-OR-CONTEXT
+    % }{
+    %   \eor{e_1}{e_2},~\sigma
+    % }{
+    %   e_1,~\sigma~~\rightarrow~~e_1',~\sigma'
+    % }{
+    %   \eor{e_1'}{e_2},~\sigma'
+    % }
+
+    \hline
+
+  \end{array}
+\]
+
+\end{document}

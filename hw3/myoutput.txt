@@ -1,0 +1,28 @@
+***Testing abs.imp
+Sequence (Assign "X" (Op Minus (Val (IntVal 0)) (Val (IntVal 3)))) (If (Op Lt (Var "X") (Val (IntVal 0))) (Assign "X" (Op Minus (Val (IntVal 0)) (Var "X"))) (Val (BoolVal False)))
+"fromList [(\"X\",IntVal 3)]"
+
+***Testing extra.imp
+Sequence (Assign "X" (Op Plus (Val (IntVal 3)) (Op Times (Val (IntVal 9)) (Val (IntVal 4))))) (Sequence (Assign "Y" (Op Times (Val (IntVal 5)) (Op Plus (Val (IntVal 2)) (Val (IntVal 7))))) (Assign "Z" (Op Divide (Val (IntVal 360)) (Op Divide (Val (IntVal 12)) (Val (IntVal 3))))))
+"fromList [(\"X\",IntVal 39),(\"Y\",IntVal 17),(\"Z\",IntVal 10)]"
+
+***Testing fact.imp
+Sequence (Assign "N" (Val (IntVal 2))) (Sequence (Assign "F" (Val (IntVal 1))) (While (Op Gt (Var "N") (Val (IntVal 0))) (Sequence (Assign "X" (Var "N")) (Sequence (Assign "Z" (Var "F")) (Sequence (While (Op Gt (Var "X") (Val (IntVal 1))) (Sequence (Assign "F" (Op Plus (Var "Z") (Var "F"))) (Assign "X" (Op Minus (Var "X") (Val (IntVal 1)))))) (Assign "N" (Op Minus (Var "N") (Val (IntVal 1)))))))))
+"fromList [(\"F\",IntVal 2),(\"N\",IntVal 0),(\"X\",IntVal 1),(\"Z\",IntVal 2)]"
+
+***Testing times.imp
+Sequence (Assign "X" (Val (IntVal 10))) (Sequence (Assign "Y" (Val (IntVal 3))) (Sequence (Assign "Z" (Val (IntVal 0))) (While (Op Gt (Var "X") (Val (IntVal 0))) (Sequence (Assign "Z" (Op Plus (Var "Z") (Var "Y"))) (Assign "X" (Op Minus (Var "X") (Val (IntVal 1))))))))
+"fromList [(\"X\",IntVal 0),(\"Y\",IntVal 3),(\"Z\",IntVal 30)]"
+
+***Testing test.imp
+Sequence (Assign "X" (Op Plus (Op Minus (Op Plus (Val (IntVal 1)) (Val (IntVal 2))) (Val (IntVal 3))) (Op Plus (Val (IntVal 1)) (Val (IntVal 3))))) (Sequence (Assign "Y" (Val (IntVal 0))) (While (Op Gt (Var "X") (Val (IntVal 0))) (Sequence (Assign "Y" (Op Plus (Var "Y") (Var "X"))) (Assign "X" (Op Minus (Var "X") (Val (IntVal 1)))))))
+"fromList [(\"X\",IntVal 0),(\"Y\",IntVal 10)]"
+
+***Testing error.imp
+Sequence (Assign "x" (Op Plus (Val (IntVal 7)) (Val (IntVal 3)))) (If (Var "x") (Val (BoolVal True)) (Val (BoolVal False)))
+"Non-boolean value '10' used as a conditional"
+
+***Testing precedenceCheck.imp
+Sequence (Assign "a" (Op Times (Op Minus (Val (IntVal 16)) (Val (IntVal 3))) (Op Divide (Val (IntVal 4)) (Op Plus (Val (IntVal 1)) (Val (IntVal 3)))))) (Sequence (Assign "b" (If (And (Op Gt (Var "a") (Val (IntVal 10))) (Op Lt (Var "a") (Val (IntVal 16)))) (Val (IntVal 2)) (Val (IntVal 0)))) (Sequence (Assign "c" (If (And (Op Gt (Var "a") (Val (IntVal 10))) (Op Lt (Var "a") (Val (IntVal 16)))) (Val (IntVal 2)) (Val (IntVal 0)))) (Sequence (Assign "d" (And (Op Gt (Var "a") (Val (IntVal 10))) (Op Gt (Var "b") (Val (IntVal 0))))) (Sequence (Assign "e" (Not (Val (BoolVal True)))) (Sequence (Assign "gi" (Not (And (Op Gt (Var "a") (Val (IntVal 10))) (Not (Op Gt (Var "b") (Val (IntVal 0))))))) (Sequence (Assign "gii" (And (Not (Op Gt (Var "a") (Val (IntVal 10)))) (Not (Op Gt (Var "b") (Val (IntVal 0)))))) (Sequence (Assign "giii" (Not (And (Op Gt (Var "a") (Val (IntVal 10))) (Not (Op Gt (Var "b") (Val (IntVal 0))))))) (Sequence (Assign "ti" (And (Val (BoolVal False)) (Val (BoolVal False)))) (Sequence (Assign "tii" (And (Val (BoolVal False)) (Val (BoolVal True)))) (Sequence (Assign "tiii" (And (Val (BoolVal True)) (Val (BoolVal False)))) (Sequence (Assign "tiv" (And (Val (BoolVal True)) (Val (BoolVal True)))) (Sequence (Assign "Ti" (Or (Val (BoolVal False)) (Val (BoolVal False)))) (Sequence (Assign "Tii" (Or (Val (BoolVal False)) (Val (BoolVal True)))) (Sequence (Assign "Tiii" (Or (Val (BoolVal True)) (Val (BoolVal False)))) (Sequence (Assign "Tiv" (Or (Val (BoolVal True)) (Val (BoolVal True)))) (Sequence (Assign "P1" (Not (Val (BoolVal False)))) (Sequence (Assign "P2" (Op Times (Val (IntVal 3)) (Op Divide (Val (IntVal 2)) (Op Plus (Val (IntVal 5)) (Op Times (Val (IntVal 3)) (Val (IntVal 7))))))) (Sequence (Assign "P3" (Op Minus (Val (IntVal 3)) (Op Plus (Val (IntVal 1)) (Val (IntVal 4))))) (Sequence (Assign "P4" (Op Plus (Val (IntVal 32)) (Op Times (Val (IntVal 3)) (Val (IntVal 6))))) (Sequence (Assign "P5" (Op Minus (Val (IntVal 3)) (Op Times (Val (IntVal 1)) (Val (IntVal 4))))) (Sequence (Assign "P6" (Op Divide (Val (IntVal 2)) (Op Plus (Val (IntVal 2)) (Val (IntVal 8))))) (Assign "P7" (Op Minus (Val (IntVal 9)) (Op Minus (Val (IntVal 9)) (Op Plus (Val (IntVal 10)) (Val (IntVal 45)))))))))))))))))))))))))))
+"fromList [(\"P1\",BoolVal True),(\"P2\",IntVal 22),(\"P3\",IntVal 6),(\"P4\",IntVal 50),(\"P5\",IntVal (-1)),(\"P6\",IntVal 9),(\"P7\",IntVal 35),(\"Ti\",BoolVal False),(\"Tii\",BoolVal True),(\"Tiii\",BoolVal True),(\"Tiv\",BoolVal True),(\"a\",IntVal 55),(\"b\",IntVal 0),(\"c\",IntVal 0),(\"d\",BoolVal False),(\"e\",BoolVal False),(\"gi\",BoolVal False),(\"gii\",BoolVal False),(\"giii\",BoolVal False),(\"ti\",BoolVal False),(\"tii\",BoolVal False),(\"tiii\",BoolVal False),(\"tiv\",BoolVal True)]"
+
